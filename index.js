@@ -3,7 +3,7 @@ const mongoose = require('mongoose') //подключение mongoose
 const exphbs = require('express-handlebars') //подключение шаблонизатора
 const portfolioRoutes = require('./routes/portfolio') //подключение routes
 
-const PORT = 3002 //на каком порту идет запуск
+const PORT = 3000 //на каком порту идет запуск
 
 const app = express() //создание объекта приложения
 const hbs = exphbs.create({
