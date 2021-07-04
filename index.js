@@ -1,4 +1,5 @@
 const express = require('express') //подключение express
+const path = require('path')
 const mongoose = require('mongoose') //подключение mongoose
 const exphbs = require('express-handlebars') //подключение шаблонизатора
 const portfolioRoutes = require('./routes/portfolio') //подключение routes
@@ -14,6 +15,9 @@ const hbs = exphbs.create({
 app.engine('hbs', hbs.engine) //регистрация движка hbs
 app.set('view engine', 'hbs')
 app.set('views', 'views')
+
+app.use(express.urlencoded({extended: true})) //позволяет считывать body в routes
+app.use(express.static(path.join(__dirname, 'public'))) //поиск css файла
 
 app.use(portfolioRoutes)
 
