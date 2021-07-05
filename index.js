@@ -1,42 +1,41 @@
-const express = require('express') //подключение express
+const express = require('express')
+const mongoose = require('mongoose')
 const path = require('path')
-const mongoose = require('mongoose') //подключение mongoose
-const exphbs = require('express-handlebars') //подключение шаблонизатора
-const portfolioRoutes = require('./routes/portfolio') //подключение routes
+const exphbs = require('express-handlebars')
+const todoRoutes = require('./routes/todos')
 
-const PORT = 3000 //на каком порту идет запуск
+const PORT = process.env.PORT || 3000
 
-const app = express() //создание объекта приложения
+const app = express()
 const hbs = exphbs.create({
-    defaultLayout: 'main',
-    extname: 'hbs' //смена формата (расширение после точки теперь будет .hbs)
+  defaultLayout: 'main',
+  extname: 'hbs'
 })
 
-app.engine('hbs', hbs.engine) //регистрация движка hbs
+app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 
-app.use(express.urlencoded({extended: true})) //позволяет считывать body в routes
-app.use(express.static(path.join(__dirname, 'public'))) //поиск css файла
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(portfolioRoutes)
+app.use(todoRoutes)
 
-async function start() { //подключение базы данных mongoose
-    try{
-        await mongoose.connect(
-            'mongodb+srv://ortamfag:1QAZxsw23edc@portfolio.7ks7u.mongodb.net/portfolio', 
-        {
-            useNewUrlParser: true,
-            useFindAndModify: false
-        })
-
-        app.listen(PORT, () => {
-            console.log('Server has been started..')
+async function start() {
+  try {
+    await mongoose.connect(
+        'mongodb+srv://ortamfag:1QAZxsw23edc@portfolio.7ks7u.mongodb.net/portfolio',
+      {
+        useNewUrlParser: true,
+        useFindAndModify: false
+      }
+    )
+    app.listen(PORT, () => {
+      console.log('Server has been started...')
     })
-
-    }   catch (e) {
-        console.log(e)
-    }
+  } catch (e) {
+    console.log(e)
+  }
 }
 
-start() //вызов функции
+start()
